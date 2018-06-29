@@ -2,7 +2,7 @@ import os
 import shutil
 import requests
 
-response = requests.get("https://randomuser.me/api/?results=10")
+response = requests.get("https://randomuser.me/api/?results=1000")
 # print(response.status_code)
 print("~~~")
 # print(response.content["results"])
@@ -30,16 +30,21 @@ else:
     #f.close()
 
 
-
+os.system ("mkdir peeps/")
 for user in user_results:
-	nameDir =   user["name"]["first"] + user["name"]["last"]
-    name = (user["name"]["title"] + " " + user["name"]["first"] + " " + user["name"]["last"]).title()
-    address = (user["location"]["street"] + ", " + user["location"]["city"] + ", " + user["location"]["state"] + " " + str(user["location"]["postcode"])).title()
-    os.system ("mkdir "+ nameDir)
-    shutil.copy(src, nameDir)
-    f= open(nameDir + "/address","w+")
-    f.write(name)
-    f.write(address)
-    f.close()
+	nameDir =   (user["name"]["first"] + user["name"]["last"]).title()
+	nameDir.replace(" ", "")
+	name = (user["name"]["title"] + " " + user["name"]["first"] + " " + user["name"]["last"]).title()
+	address = (user["location"]["street"] + ", " + user["location"]["city"] + ", " + user["location"]["state"] + " " + str(user["location"]["postcode"])).title()
+	
+	os.system ("mkdir peeps/"+ nameDir)
+	shutil.copy(src, "peeps/" + nameDir)
+	try:
+		f= open("peeps"+nameDir + "/address","w+")
+		f.write(name)
+		f.write(address)
+		f.close()
+	except:
+		pass
 
 
